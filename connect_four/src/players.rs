@@ -4,7 +4,7 @@ use core::fmt;
 pub enum Players {
     #[default]
     X,
-    O
+    O,
 }
 
 impl fmt::Display for Players {
@@ -17,10 +17,10 @@ impl fmt::Display for Players {
 }
 
 impl Into<char> for Players {
-  fn into(self) -> char {
-    match self {
-      Players::O => 'O',
-      Players::X => 'X'
+    fn into(self) -> char {
+        match self {
+            Players::O => 'O',
+            Players::X => 'X',
+        }
     }
-  }
 }
