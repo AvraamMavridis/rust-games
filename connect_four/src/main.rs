@@ -27,6 +27,10 @@ fn main() {
         if let Some(free_row) = find_open_slot_in_row(&board, col) {
             board[free_row][col] = Into::<char>::into(current_player.clone());
             check_for_win(&board);
+
+            if check_for_draw(&board) {
+                println!("Draw!")
+            }
         } else {
             println!("Column full, try a different one.");
         }
@@ -79,6 +83,10 @@ fn check_for_win(board: &Board) -> Option<Players> {
     //     }
     // }
     None
+}
+
+fn check_for_draw(board: &Board) -> bool {
+    board.iter().all(|row| row.iter().all(|cell| *cell != ' '))
 }
 
 fn print_board(board: &Board) {
