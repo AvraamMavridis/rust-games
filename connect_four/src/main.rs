@@ -24,15 +24,27 @@ fn main() {
             _ => continue, // Re-prompt on invalid input
         };
 
-        if let Some(free_row) = find_open_slot_in_row(&board, col) {
-            board[free_row][col] = Into::<char>::into(current_player.clone());
-            check_for_win(&board);
-
-            if check_for_draw(&board) {
-                println!("Draw!")
+        let free_row = match find_open_slot_in_row(&board, col) {
+            Some(row) => row,
+            None => {
+                println!("Column full, try a different one.");
+                continue;
             }
-        } else {
-            println!("Column full, try a different one.");
+        };
+        board[free_row][col] = Into::<char>::into(current_player.clone());
+
+        match check_for_win(&board) {
+            Some(winner) => {
+                print_board(&board);
+                println!("We have a winner: {}", winner);
+                break;
+            }
+            None => {
+                if check_for_draw(&board) {
+                    println!("We have a draw!");
+                    break;
+                }
+            }
         }
 
         current_player = if current_player == Players::X {
@@ -75,13 +87,39 @@ fn check_for_win(board: &Board) -> Option<Players> {
         r = " ".to_string();
     }
 
-    // for row in 0..ROWS-3 {
-    //     for col in 0..COLUMNS-3 {
-    //         if board[row][col] == board[row+1][col+1] && board[row][col] == board[row+2][col+2] && board[row][col] == board[row+3][col+3] {
-    //             return Some(board[row][col]);
-    //         }
-    //     }
-    // }
+    // Diagonical check top-left to bottom-right
+    for row in 0..ROWS - 3 {
+        for col in 0..COLUMNS - 3 {
+            if board[row][col] == board[row + 1][col + 1]
+                && board[row][col] == board[row + 2][col + 2]
+                && board[row][col] == board[row + 3][col + 3]
+                && (board[row][col] == Players::X.into() || board[row][col] == Players::O.into())
+            {
+                return if board[row][col] == Players::X.into() {
+                    Some(Players::X)
+                } else {
+                    Some(Players::O)
+                };
+            }
+        }
+    }
+
+    // top-right to bottom-left
+    for row in 0..ROWS - 3 {
+        for col in 3..COLUMNS {
+            if board[row][col] == board[row + 1][col - 1]
+                && board[row][col] == board[row + 2][col - 2]
+                && board[row][col] == board[row + 3][col - 3]
+                && (board[row][col] == Players::X.into() || board[row][col] == Players::O.into())
+            {
+                return if board[row][col] == Players::X.into() {
+                    Some(Players::X)
+                } else {
+                    Some(Players::O)
+                };
+            }
+        }
+    }
     None
 }
 
