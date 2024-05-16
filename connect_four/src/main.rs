@@ -1,20 +1,18 @@
-use std::io::stdin;
+
+
+use players::Players;
+mod players;
 
 const ROWS: usize = 6;
 const COLUMNS: usize = 7;
 
-#[derive(Debug, Default)]
-enum Players {
-    #[default]
-    X,
-    O
-}
+
 
 type Board = [[char; COLUMNS]; ROWS];
 
 fn main() {
     let mut board: Board = [[' '; COLUMNS]; ROWS];
-    let mut current_player = 'X'; // Player X starts
+    let mut current_player = Players::X; // Player X starts
 
     loop {
         print_board(&board);
@@ -29,12 +27,12 @@ fn main() {
         };
 
         if let Some(free_row) = find_open_slot_in_row(&board, col){
-            board[col][free_row] = current_player;
+            board[free_row][col] = Into::<char>::into(current_player.clone())
         } else {
             println!("Column full, try a different one.");
         }
 
-        println!("{}", col)
+        current_player = if current_player == Players::X { Players::O } else { Players::X }; 
 
     }
 }
@@ -51,9 +49,8 @@ fn print_board(board: &Board) {
 
 
 fn find_open_slot_in_row(board: &Board, col: usize) -> Option<usize> {
-    for row in (1..=6).rev() {
-        println!(">>>>>>>>>{}", row);
-        if(board[col][row] == ' '){
+    for row in (0..6).rev() {
+        if board[row][col] == ' ' {
             return Some(row);
         }
     }
