@@ -145,3 +145,122 @@ fn find_open_slot_in_row(board: &Board, col: usize) -> Option<usize> {
     }
     return None;
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    mod find_open_slot_in_row {
+        use super::*;
+
+        #[test]
+        fn it_finds_open_slot_when_exists() {
+            let board = [
+                [' ', 'X', 'X', 'X', 'X', 'O', 'X'],
+                [' ', 'X', 'O', 'X', 'O', 'X', 'O'],
+                [' ', 'O', 'X', 'O', 'X', 'O', 'X'],
+                [' ', 'X', 'O', 'X', 'O', 'X', 'O'],
+                [' ', 'O', 'X', 'O', 'X', 'O', 'X'],
+                ['O', 'X', 'O', 'X', 'O', 'X', 'O'],
+            ];
+            assert_eq!(find_open_slot_in_row(&board, 0), Some(4));
+        }
+
+        #[test]
+        fn it_returns_open_slot_when_exists() {
+            let board = [
+                [' ', 'X', 'X', 'X', 'X', 'O', 'X'],
+                [' ', 'X', 'O', 'X', 'O', 'X', 'O'],
+                [' ', 'O', 'X', 'O', 'X', 'O', 'X'],
+                [' ', 'X', 'O', 'X', 'O', 'X', 'O'],
+                [' ', 'O', 'X', 'O', 'X', 'O', 'X'],
+                ['O', 'X', 'O', 'X', 'O', 'X', 'O'],
+            ];
+            assert_eq!(find_open_slot_in_row(&board, 1), None);
+        }
+    }
+
+    mod check_for_win {
+        use super::*;
+        #[test]
+        fn it_determines_win_horizontally() {
+            let board = [
+                ['X', 'X', 'X', 'X', 'X', 'O', 'X'],
+                ['O', 'X', 'O', 'X', 'O', 'X', 'O'],
+                ['X', 'O', 'X', 'O', 'X', 'O', 'X'],
+                ['O', 'X', 'O', 'X', 'O', 'X', 'O'],
+                ['X', 'O', 'X', 'O', 'X', 'O', 'X'],
+                ['O', 'X', 'O', 'X', 'O', 'X', 'O'],
+            ];
+            assert_eq!(check_for_win(&board), Some(Players::X));
+        }
+
+        #[test]
+        fn it_determines_win_vertically() {
+            let board = [
+                ['O', 'O', 'X', 'X', 'X', 'O', 'X'],
+                ['O', 'X', 'O', 'X', 'O', 'X', 'O'],
+                ['O', 'O', 'X', 'O', 'X', 'O', 'X'],
+                ['O', 'X', 'O', 'X', 'O', 'X', 'O'],
+                ['X', 'O', 'X', 'O', 'X', 'O', 'X'],
+                ['O', 'X', 'O', 'X', 'O', 'X', 'O'],
+            ];
+            assert_eq!(check_for_win(&board), Some(Players::O));
+        }
+
+        #[test]
+        fn it_determines_win_diagonically_for_x() {
+            let board = [
+                [' ', ' ', ' ', ' ', ' ', 'O', 'X'],
+                [' ', ' ', ' ', 'X', 'O', 'X', 'O'],
+                [' ', ' ', 'X', 'X', 'X', 'O', 'X'],
+                [' ', 'X', 'O', 'X', 'O', 'X', 'O'],
+                ['X', 'O', 'X', 'O', 'X', 'O', 'X'],
+                ['O', 'X', 'O', 'X', 'O', 'X', 'O'],
+            ];
+            assert_eq!(check_for_win(&board), Some(Players::X));
+        }
+
+        #[test]
+        fn it_determines_win_diagonically_for_o() {
+            let board = [
+                [' ', ' ', ' ', ' ', ' ', 'O', 'X'],
+                [' ', ' ', ' ', 'O', 'O', 'O', 'X'],
+                [' ', ' ', 'O', 'X', 'X', 'O', 'O'],
+                [' ', 'O', 'O', 'X', 'O', 'X', 'O'],
+                ['O', 'O', 'O', 'O', 'X', 'O', 'X'],
+                ['O', 'X', 'O', 'X', 'O', 'X', 'O'],
+            ];
+            assert_eq!(check_for_win(&board), Some(Players::O));
+        }
+    }
+
+    mod check_for_draw {
+        use super::*;
+        #[test]
+        fn it_determines_draw_when_board_is_full() {
+            let board = [
+                ['X', 'O', 'X', 'O', 'X', 'O', 'X'],
+                ['O', 'X', 'O', 'X', 'O', 'X', 'O'],
+                ['X', 'O', 'X', 'O', 'X', 'O', 'X'],
+                ['O', 'X', 'O', 'X', 'O', 'X', 'O'],
+                ['X', 'O', 'X', 'O', 'X', 'O', 'X'],
+                ['O', 'X', 'O', 'X', 'O', 'X', 'O'],
+            ];
+            assert_eq!(check_for_draw(&board), true);
+        }
+
+        #[test]
+        fn it_determines_draw_when_board_is_not_full() {
+            let board = [
+                ['X', 'O', 'X', 'O', 'X', 'O', 'X'],
+                ['O', 'X', 'O', 'X', 'O', 'X', 'O'],
+                ['X', 'O', 'X', 'O', 'X', 'O', 'X'],
+                ['O', 'X', 'O', 'X', 'O', 'X', 'O'],
+                ['X', 'O', 'X', 'O', 'X', 'O', 'X'],
+                ['O', 'X', 'O', 'X', 'O', 'X', ' '],
+            ];
+            assert_eq!(check_for_draw(&board), false);
+        }
+    }
+}
