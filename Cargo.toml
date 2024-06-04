@@ -1,0 +1,9 @@
+[workspace]
+
+members = [
+    "10_min_walk",
+    "british_vs_slovakian_post_codes",
+    "connect_four",
+    "pangram",
+    "count_chars"
+]
