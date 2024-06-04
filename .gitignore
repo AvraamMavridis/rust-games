@@ -1,3 +1,8 @@
 connect_four/target/
 rock_paper_scissors/target/
 */target/
+
+
+# Added by cargo
+
+/target
