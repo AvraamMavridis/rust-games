@@ -13,8 +13,6 @@ impl From<PokemonType> for usize {
 }
 
 fn get_effectiveness(my_type: PokemonType, opponent_type: PokemonType) -> f64 {
-    println!("{} {}", my_type as usize, opponent_type as usize);
-
     const EFFECTIVENESS: [[f64; 4]; 4] = [
         // ELECTRIC, FIRE, WATER, GRASS
         [1.0, 1.0, 2.0, 1.0], // ELECTRIC
