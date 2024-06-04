@@ -6,4 +6,4 @@ members = [
     "connect_four",
     "pangram",
     "count_chars"
-]
+, "pokemon_battle"]
