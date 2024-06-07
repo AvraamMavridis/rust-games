@@ -35,10 +35,6 @@ name = "dynamic_box"
 version = "0.1.0"
 
 [[package]]
-name = "life_times_string_manipulation"
-version = "0.1.0"
-
-[[package]]
 name = "memchr"
 version = "2.7.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
