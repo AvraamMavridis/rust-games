@@ -78,5 +78,9 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "adad44e29e4c806119491a7f06f03de4d1af22c3a680dd47f1e6e179439d1f56"
 
 [[package]]
+name = "tcp_typestate_pattern"
+version = "0.1.0"
+
+[[package]]
 name = "ten_min_walk"
 version = "0.1.0"
