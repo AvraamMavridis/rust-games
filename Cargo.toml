@@ -6,4 +6,4 @@ members = [
     "connect_four",
     "pangram",
     "count_chars"
-, "pokemon_battle", "add_up_array", "dynamic_box", "tcp_typestate_pattern"]
+, "pokemon_battle", "add_up_array", "dynamic_box", "tcp_typestate_pattern", "trait_challenge_1"]
