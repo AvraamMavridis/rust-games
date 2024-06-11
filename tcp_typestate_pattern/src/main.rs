@@ -1,9 +1,5 @@
 use states::*;
 
-fn main() {
-    println!("Hello, world!");
-}
-
 pub mod states {
     #[derive(Debug, Clone)]
     pub struct Open {
@@ -35,7 +31,7 @@ impl TcpConnection<()> {
         }
     }
 
-    fn close(&self) -> TcpConnection<Closed> {
+    fn close(self) -> TcpConnection<Closed> {
         TcpConnection {
             _state: states::Closed {}
         }
@@ -43,7 +39,7 @@ impl TcpConnection<()> {
 }
 
 impl TcpConnection<Closed> {
-    fn open(&self) -> TcpConnection<Open> {
+    fn open(self) -> TcpConnection<Open> {
         TcpConnection {
             _state: states::Open {
                 data: None
@@ -57,13 +53,13 @@ impl TcpConnection<Closed> {
 }
 
 impl TcpConnection<Open> {
-    fn listen(&self) -> TcpConnection<Listening> {
+    fn listen(self) -> TcpConnection<Listening> {
         TcpConnection {
             _state: states::Listening {}
         }
     }
 
-    fn close(&self) -> TcpConnection<Closed> {
+    fn close(self) -> TcpConnection<Closed> {
         TcpConnection {
             _state: states::Closed {}
         }
@@ -81,7 +77,7 @@ impl TcpConnection<Open> {
         self._state.data = Some(String::from(data));
     }
 
-    fn receive(&self) -> String {
+    fn receive(self) -> String {
         match self._state.data.clone() {
             None => String::from(""),
             Some(data) => data
@@ -136,7 +132,7 @@ mod tests {
         let open_connection = connection.open();
         let listening_connection = open_connection.listen();
         listening_connection.accept();
-        assert!(open_connection.is_open());
+        assert!(listening_connection.is_open());
     }
 
     #[test]
