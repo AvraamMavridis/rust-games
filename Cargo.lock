@@ -90,6 +90,10 @@ name = "singleton"
 version = "0.1.0"
 
 [[package]]
+name = "static_factory_method"
+version = "0.1.0"
+
+[[package]]
 name = "tcp_typestate_pattern"
 version = "0.1.0"
 
